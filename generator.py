@@ -4,12 +4,12 @@ import numpy as np
 
 
 class Generator:
-    def __init__(self, file: str = 'cyber_weights'):
-        with open('char_indices') as f:
+    def __init__(self, file: str = 'trained_data/cyber_weights'):
+        with open('trained_data/char_indices') as f:
             char_indices = f.read()
         self._char_indices = literal_eval(char_indices)
 
-        with open('indices_char') as f:
+        with open('trained_data/indices_char') as f:
             indices_char = f.read()
         self._indices_char = literal_eval(indices_char)
 
@@ -20,14 +20,27 @@ class Generator:
         self._model = get_model(self._maxlen, len(self._chars))
         self._model.load_weights(file)
 
-        # print(self._char_indices)
-        # print(self._indices_char)
-        # print(self._chars)
-
-    def generate(self, size: int = 50, diversity: float = 0.2):
+    def generate(self, seed: str = '', size: int = 50, diversity: float = 0.1):
         generated = ''
         sentence = 'хорошего дня хорошего дня хорошего дня  '
+
+        if seed != '':
+            seed_chars = set(seed)
+            for char in seed_chars:
+                if char not in self._chars:
+                    pos = seed.find(char)
+                    while pos != -1:
+                        if pos == len(seed) - 1:
+                            seed = seed[:pos]
+                        else:
+                            seed = seed[:pos] + seed[pos+1]
+                        pos = seed.find(char)
+
+            if len(seed) > self._maxlen:
+                seed = seed[:self._maxlen]
+            sentence = seed + sentence[len(seed):]
         generated += sentence
+        print(f'Sentence: {sentence}')
 
         for i in range(size):
             x_pred = np.zeros((1, self._maxlen, len(self._chars)))

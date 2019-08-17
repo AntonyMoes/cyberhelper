@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  bot:
+    environment:
+      API_KEY: ${API_KEY}
+    build:
+      context: '.'
+      dockerfile: './Dockerfile'

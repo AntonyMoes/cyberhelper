@@ -9,3 +9,6 @@ __pycache__/
 model/
 *.html
 quotes.txt
+
+# Project
+.env
