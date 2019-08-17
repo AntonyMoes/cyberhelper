@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# Python
+venv/
+__pycache__/
+
+# Temp stuff
+model/
+*.html
+quotes.txt
