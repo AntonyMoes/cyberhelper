@@ -3,7 +3,13 @@ from generator import Generator
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from os import environ
-from random import randint
+from random import randint, choice
+from string import ascii_lowercase
+
+
+def get_random_string(length: int = 10):
+    letters = ascii_lowercase
+    return ''.join(choice(letters) for _ in range(length))
 
 
 def write_msg(user_id, message):
@@ -17,16 +23,15 @@ except:
 
 # Авторизуемся как сообщество
 vk = vk_api.VkApi(token=token)
-
 # Работа с сообщениями
 longpoll = VkLongPoll(vk)
 
-generator = Generator('model/cyber_weights_1_27')
+generator = Generator('trained_data/cyber_weights')
 # Commander
 print('Бот запущен')
 # Основной цикл
 for event in longpoll.listen():
-    print(event)
+    print(event.type)
 
     # Если пришло новое сообщение
     if event.type == VkEventType.MESSAGE_NEW:
@@ -56,9 +61,3 @@ for event in longpoll.listen():
 
             # Каменная логика ответа
             write_msg(id, generator.generate(request))
-            # if request == 'привет':
-            #     write_msg(id, 'Здравствуйте.')
-            # elif request == 'пока':
-            #     write_msg(id, 'Хорошего дня, ' + str(event.user_id) + '.')
-            # else:
-            #     write_msg(id, 'Что?.')

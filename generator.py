@@ -20,7 +20,7 @@ class Generator:
         self._model = get_model(self._maxlen, len(self._chars))
         self._model.load_weights(file)
 
-    def generate(self, seed: str = '', size: int = 50, diversity: float = 0.1):
+    def generate(self, seed: str = '', size: int = 50, diversity: float = 0.25):
         generated = ''
         sentence = 'хорошего дня хорошего дня хорошего дня  '
 
