@@ -13,7 +13,7 @@ generator = Generator('trained_data/cyber_weights')
 
 
 def process_command(message: str) -> str:
-    is_ad = randint(1, 10) == 1
+    is_ad = randint(1, 15) == 1
     if is_ad:
         return get_ad()
 
