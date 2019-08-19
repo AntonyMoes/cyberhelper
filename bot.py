@@ -60,4 +60,4 @@ for event in longpoll.listen():
                 id = event.user_id
 
             # Каменная логика ответа
-            write_msg(id, generator.generate(request))
+            write_msg(id, generator.generate(seed=request, size=randint(10, 80)))

@@ -42,7 +42,9 @@ class Generator:
         generated += sentence
         print(f'Sentence: {sentence}')
 
-        for i in range(size):
+        i = 0
+        next_char = ' '
+        while i < size or (next_char != ' ' and next_char != '\n'):
             x_pred = np.zeros((1, self._maxlen, len(self._chars)))
             for t, char in enumerate(sentence):
                 x_pred[0, t, self._char_indices[char]] = 1.
@@ -53,8 +55,10 @@ class Generator:
 
             generated += next_char
             sentence = sentence[1:] + next_char
+            i += 1
+            print(i)
 
-        return generated[40:]
+        return generated[40:-1] + '.'
 
     @staticmethod
     def _sample(preds, temperature=1.0):
