@@ -56,7 +56,6 @@ class Generator:
             generated += next_char
             sentence = sentence[1:] + next_char
             i += 1
-            print(i)
 
         return generated[40:-1] + '.'
 

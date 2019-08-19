@@ -1,10 +1,23 @@
 # from generator import Generator
-from generator import Generator
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from os import environ
 from random import randint, choice
 from string import ascii_lowercase
+
+from bot_utils.quotes import get_quote
+from generator import Generator
+
+generator = Generator('trained_data/cyber_weights')
+
+
+def process_command(message: str) -> str:
+    print('Message:', message)
+    if message.find('цитата') != -1:
+        print('ЩА БУДУ ЦИТИРОВАТЬ')
+        return get_quote()
+    else:
+        return generator.generate(seed=message, size=randint(10, 80))
 
 
 def get_random_string(length: int = 10):
@@ -12,52 +25,50 @@ def get_random_string(length: int = 10):
     return ''.join(choice(letters) for _ in range(length))
 
 
-def write_msg(user_id, message):
-    vk.method('messages.send', {'peer_id': user_id, 'message': message, 'random_id': str(randint(0, 2147483647))})
+def write_msg(api, user_id, message):
+    api.method('messages.send', {'peer_id': user_id, 'message': message, 'random_id': str(randint(0, 2147483647))})
 
 
-try:
-    token = environ['API_KEY']
-except:
-    exit(1)
+if __name__ == '__main__':
+    try:
+        token = environ['API_KEY']
+    except:
+        exit(1)
 
-# Авторизуемся как сообщество
-vk = vk_api.VkApi(token=token)
-# Работа с сообщениями
-longpoll = VkLongPoll(vk)
+    vk = vk_api.VkApi(token=token)
+    longpoll = VkLongPoll(vk)
 
-generator = Generator('trained_data/cyber_weights')
-# Commander
-print('Бот запущен')
-# Основной цикл
-for event in longpoll.listen():
-    print(event.type)
+    print('Бот запущен')
 
-    # Если пришло новое сообщение
-    if event.type == VkEventType.MESSAGE_NEW:
-        if hasattr(event, 'chat_id'):
-            chat_id = event.chat_id
-        else:
-            chat_id = None
+    for event in longpoll.listen():
+        print(event.type)
 
-        print(event.text)
-        # Если оно имеет метку для меня( то есть бота)
-        if event.text.find('@cyberkotsenko') != -1 or event.to_me:
-
-            # Сообщение от пользователя
-            request: str = event.text
-
-            pos = request.find('@cyberkotsenko')
-            if pos != -1:
-                request = request[pos:]
-                request.replace('@cyberkotsenko', '')
-
-            request = request.lower()
-
-            if chat_id is not None:
-                id = 2000000000 + chat_id
+        # Если пришло новое сообщение
+        if event.type == VkEventType.MESSAGE_NEW:
+            if hasattr(event, 'chat_id'):
+                chat_id = event.chat_id
             else:
-                id = event.user_id
+                chat_id = None
 
-            # Каменная логика ответа
-            write_msg(id, generator.generate(seed=request, size=randint(10, 80)))
+            print(event.text)
+            # Если оно имеет метку для меня( то есть бота)
+            if event.text.find('@cyberkotsenko') != -1 or event.to_me:
+
+                # Сообщение от пользователя
+                request: str = event.text
+
+                pos = request.find('@cyberkotsenko')
+                if pos != -1:
+                    request = request[pos:]
+                    request.replace('@cyberkotsenko', '')
+
+                request = request.lower()
+
+                if chat_id is not None:
+                    id = 2000000000 + chat_id
+                else:
+                    id = event.user_id
+
+                # Каменная логика ответа
+                response = process_command(request)
+                write_msg(vk, id, response)
