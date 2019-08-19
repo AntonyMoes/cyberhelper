@@ -13,7 +13,7 @@ quotes = [
     Template('Это уже $who.'),
     Template('Зачем устраиваешь театр $what?'),
     Template('$who с большой буквы надо было.'),
-    Template('Может надо выйти на $what или даже $what.'),
+    Template('Может надо выйти на $what1 или даже $what2.'),
 ]
 
 whos = [
@@ -49,6 +49,9 @@ def get_quote() -> str:
     d = dict()
     d['who'] = whos[randint(0, len(whos) - 1)]
     d['what'] = whats[randint(0, len(whats) - 1)]
+    d['what1'] = whats[randint(0, len(whats) - 1)]
+    d['what2'] = whats[randint(0, len(whats) - 1)]
+
 
     t = quotes[randint(0, len(quotes) - 1)]
     s = t.safe_substitute(d)
