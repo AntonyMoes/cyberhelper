@@ -1,5 +1,4 @@
-# from generator import Generator
-import vk_api
+from vk_api import VkApi
 from vk_api.longpoll import VkLongPoll, VkEventType
 from os import environ
 from random import randint, choice
@@ -23,7 +22,7 @@ def process_command(message: str) -> str:
         return generator.generate(seed=message, size=randint(10, 80))
 
 
-def get_random_string(length: int = 10):
+def get_random_string(length: int = 10) -> str:
     letters = ascii_lowercase
     return ''.join(choice(letters) for _ in range(length))
 
@@ -35,10 +34,10 @@ def write_msg(api, user_id, message):
 if __name__ == '__main__':
     try:
         token = environ['API_KEY']
-    except:
+    except KeyError:
         exit(1)
 
-    vk = vk_api.VkApi(token=token)
+    vk = VkApi(token=token)
     longpoll = VkLongPoll(vk)
 
     print('Бот запущен')
@@ -46,7 +45,6 @@ if __name__ == '__main__':
     for event in longpoll.listen():
         print(event.type)
 
-        # Если пришло новое сообщение
         if event.type == VkEventType.MESSAGE_NEW:
             if hasattr(event, 'chat_id'):
                 chat_id = event.chat_id
@@ -54,24 +52,21 @@ if __name__ == '__main__':
                 chat_id = None
 
             print(event.text)
-            # Если оно имеет метку для меня( то есть бота)
-            if event.text.find('@cyberkotsenko') != -1 or event.to_me:
+            # if event.text.find('@cyberkotsenko') != -1 or event.to_me:
+            if event.to_me:
+                # request = event.text
+                # pos = request.find('@cyberkotsenko')
+                # if pos != -1:
+                #     request = request[pos:]
+                #     request.replace('@cyberkotsenko', '')
+                # request = request.lower()
 
-                # Сообщение от пользователя
-                request: str = event.text
-
-                pos = request.find('@cyberkotsenko')
-                if pos != -1:
-                    request = request[pos:]
-                    request.replace('@cyberkotsenko', '')
-
-                request = request.lower()
+                request = event.text.lower()
 
                 if chat_id is not None:
-                    id = 2000000000 + chat_id
+                    response_id = 2000000000 + chat_id
                 else:
-                    id = event.user_id
+                    response_id = event.user_id
 
-                # Каменная логика ответа
                 response = process_command(request)
-                write_msg(vk, id, response)
+                write_msg(vk, response_id, response)

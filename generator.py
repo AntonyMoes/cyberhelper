@@ -15,9 +15,9 @@ class Generator:
 
         self._chars = sorted(list(self._char_indices.keys()))
 
-        self._maxlen = 40
+        self._max_len = 40
 
-        self._model = get_model(self._maxlen, len(self._chars))
+        self._model = get_model(self._max_len, len(self._chars))
         self._model.load_weights(file)
 
     def generate(self, seed: str = '', size: int = 50, diversity: float = 0.25):
@@ -36,8 +36,8 @@ class Generator:
                             seed = seed[:pos] + seed[pos+1]
                         pos = seed.find(char)
 
-            if len(seed) > self._maxlen:
-                seed = seed[:self._maxlen]
+            if len(seed) > self._max_len:
+                seed = seed[:self._max_len]
             sentence = seed + sentence[len(seed):]
         generated += sentence
         print(f'Sentence: {sentence}')
@@ -45,7 +45,7 @@ class Generator:
         i = 0
         next_char = ' '
         while i < size or (next_char != ' ' and next_char != '\n'):
-            x_pred = np.zeros((1, self._maxlen, len(self._chars)))
+            x_pred = np.zeros((1, self._max_len, len(self._chars)))
             for t, char in enumerate(sentence):
                 x_pred[0, t, self._char_indices[char]] = 1.
 

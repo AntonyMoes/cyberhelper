@@ -52,7 +52,6 @@ def get_quote() -> str:
     d['what1'] = whats[randint(0, len(whats) - 1)]
     d['what2'] = whats[randint(0, len(whats) - 1)]
 
-
     t = quotes[randint(0, len(quotes) - 1)]
     s = t.safe_substitute(d)
     s = s[0].upper() + s[1:]

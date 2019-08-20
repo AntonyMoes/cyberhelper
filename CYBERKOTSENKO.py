@@ -92,6 +92,7 @@ def on_epoch_end(epoch, _):
         print()
     model.save_weights('model/cyber_weights_1_' + str(epoch))
 
+
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
 model.fit(x, y,

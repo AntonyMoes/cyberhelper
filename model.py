@@ -3,6 +3,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.optimizers import RMSprop
 
+
 def get_model(maxlen, chars_num):
     model = Sequential()
     model.add(LSTM(128, input_shape=(maxlen, chars_num)))
