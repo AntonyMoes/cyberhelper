@@ -46,10 +46,10 @@ if __name__ == '__main__':
         print(event.type)
 
         if event.type == VkEventType.MESSAGE_NEW:
-            if hasattr(event, 'chat_id'):
-                chat_id = event.chat_id
-            else:
-                chat_id = None
+            # if hasattr(event, 'chat_id'):
+            #     chat_id = event.chat_id
+            # else:
+            #     chat_id = None
 
             print(event.text)
             # if event.text.find('@cyberkotsenko') != -1 or event.to_me:
@@ -63,10 +63,11 @@ if __name__ == '__main__':
 
                 request = event.text.lower()
 
-                if chat_id is not None:
-                    response_id = 2000000000 + chat_id
-                else:
-                    response_id = event.user_id
+                # if chat_id is not None:
+                #     response_id = 2000000000 + chat_id
+                # else:
+                #     response_id = event.user_id
+                response_id = event.chat_id
 
                 response = process_command(request)
                 write_msg(vk, response_id, response)
