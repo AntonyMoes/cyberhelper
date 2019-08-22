@@ -1,4 +1,4 @@
-from model import get_model
+from generator.model import get_model
 from ast import literal_eval
 import numpy as np
 

@@ -4,7 +4,24 @@ services:
   bot:
     environment:
       API_KEY: ${API_KEY}
+      PGHOST: 'postgres'
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
     build:
       context: '.'
-      dockerfile: './Dockerfile'
+      dockerfile: './bot_utils/Dockerfile'
     restart: always
+    depends_on:
+      - postgres
+
+  postgres:
+    environment:
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres/data:/var/lib/postgresql/data
