@@ -16,6 +16,10 @@ import asyncpg
 # 7) Return object created using Model.objects.create()
 
 
+async def init_orm(user, password, database, host):
+    await Manage.init_conn(user, password, database, host)
+
+
 class _QueryVariableGenerator:
     def __init__(self):
         self._counter = 1
