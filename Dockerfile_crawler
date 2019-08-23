@@ -1,0 +1,11 @@
+FROM python:3.7.4
+
+COPY requirements.txt requirements.txt
+COPY run_crawler.py run_bot.py
+COPY crawler/ crawler/
+COPY orm/ orm/
+COPY utils.py utils.py
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "run_crawler.py"]
