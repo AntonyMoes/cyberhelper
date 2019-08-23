@@ -1,6 +1,9 @@
 import asyncio
 from os import environ
 
+HOUR = 3600
+DAY = HOUR * 24
+
 
 def sync(coro):
     def _helper(*args, **kwargs):

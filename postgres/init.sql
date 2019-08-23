@@ -3,5 +3,6 @@ create table if not exists conversations (
     constraint conversations_pkey
     primary key,
     id integer not null unique,
-    name text
+    name text,
+    last_ts integer not null
 );

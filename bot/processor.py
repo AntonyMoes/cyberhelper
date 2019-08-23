@@ -1,5 +1,5 @@
 from random import randint
-from asyncio import get_event_loop
+from time import time
 
 from bot.quotes import get_quote
 from bot.ads import get_ad
@@ -13,7 +13,7 @@ class Processor:
         self._gen = Generator('trained_data/cyber_weights')
 
     def process(self, message: str, response_id: int) -> str:
-        self._check_if_new(response_id)
+        self._update_conversation(response_id)
         is_ad = randint(1, 15) == 1
         if is_ad:
             return get_ad()
@@ -25,8 +25,11 @@ class Processor:
 
     @staticmethod
     @sync
-    async def _check_if_new(response_id: int):
+    async def _update_conversation(response_id: int):
+        ts = int(time())
         try:
-            await Conversation.objects.filter(id=response_id).get_one()
+            conversation = await Conversation.objects.filter(id=response_id).get_one()
+            conversation.last_ts = ts
+            await conversation.save()
         except Conversation.DoesNotExist:
-            await Conversation.objects.create(id=response_id)
+            await Conversation.objects.create(id=response_id, last_ts=ts)
