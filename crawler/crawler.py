@@ -14,7 +14,7 @@ class Crawler:
 
     async def run(self):
         coros = [
-            # cf.load_conversations(self._api),
+            cf.load_conversations(self._api),
             cf.update_names(self._api),
         ]
 
