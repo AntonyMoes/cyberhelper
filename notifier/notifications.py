@@ -52,7 +52,5 @@ async def absent_notification(write):
             ts = int(time())
             if ts - conversation.last_ts >= DAY * 2:
                 await write(conversation.id, message)
-                conversation.last_ts = ts
-                await conversation.save()
 
         await asyncio.sleep(HOUR)

@@ -2,7 +2,7 @@ import asyncio
 from math import inf
 
 from orm.models import Conversation
-from utils import HOUR
+from utils import MINUTE
 
 
 async def load_conversations(api):
@@ -10,6 +10,7 @@ async def load_conversations(api):
     offset = 0
     count = inf
     conversations = []
+
     while offset < count:
         conversation_info = await api('messages.getConversations', offset=offset, count=BATCH)
         count = conversation_info['count']
@@ -31,7 +32,8 @@ async def update_names(api):
         try:
             conversations = await Conversation.objects.get()
         except Conversation.DoesNotExist:
-            await asyncio.sleep(600)
+            await asyncio.sleep(MINUTE * 10)
+            continue
 
         ids = []
         for conversation in conversations:
@@ -43,4 +45,4 @@ async def update_names(api):
             conversation.name = conv_info['first_name']
             await conversation.save()
 
-        await asyncio.sleep(600)
+        await asyncio.sleep(MINUTE * 10)

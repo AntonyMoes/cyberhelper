@@ -1,7 +1,8 @@
 import asyncio
 from os import environ
 
-HOUR = 3600
+MINUTE = 60
+HOUR = MINUTE * 60
 DAY = HOUR * 24
 
 
