@@ -43,16 +43,16 @@ async def absent_notification(write):
         try:
             conversations = await Conversation.objects.get()
         except Conversation.DoesNotExist:
-            await asyncio.sleep(10)
+            await asyncio.sleep(HOUR)
             continue
 
         message = 'Давно тебя не было в уличных гонках! Заходи!'
 
         for conversation in conversations:
             ts = int(time())
-            if ts - conversation.last_ts >= 60:
+            if ts - conversation.last_ts >= DAY * 2:
                 await write(conversation.id, message)
                 conversation.last_ts = ts
                 await conversation.save()
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(HOUR)
