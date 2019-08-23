@@ -1,7 +1,7 @@
 FROM python:3.7.4
 
 COPY requirements.txt requirements.txt
-COPY run_crawler.py run_bot.py
+COPY run_crawler.py run_crawler.py
 COPY crawler/ crawler/
 COPY orm/ orm/
 COPY utils.py utils.py
