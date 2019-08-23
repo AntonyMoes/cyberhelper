@@ -13,7 +13,7 @@ if __name__ == '__main__':
     pg_user = get_env_var('POSTGRES_USER', 'postgres')
     pg_password = get_env_var('POSTGRES_PASSWORD', '')
     pg_database = get_env_var('POSTGRES_DB', 'postgres')
-    pg_host = get_env_var('PG_HOST', 'localhost')
+    pg_host = get_env_var('PGHOST', 'localhost')
 
     crawler = Crawler(token, pg_user=pg_user, pg_password=pg_password, pg_database=pg_database, pg_host=pg_host)
 
