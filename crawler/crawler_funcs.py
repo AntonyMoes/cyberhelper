@@ -28,7 +28,10 @@ async def load_conversations(api):
 
 async def update_names(api):
     while True:
-        conversations = await Conversation.objects.get()
+        try:
+            conversations = await Conversation.objects.get()
+        except Conversation.DoesNotExist:
+            await asyncio.sleep(600)
 
         ids = []
         for conversation in conversations:
@@ -40,4 +43,4 @@ async def update_names(api):
             conversation.name = conv_info['first_name']
             await conversation.save()
 
-        await asyncio.sleep(HOUR)
+        await asyncio.sleep(600)
