@@ -10,7 +10,7 @@ services:
       POSTGRES_DB: 'bot'
     build:
       context: '.'
-      dockerfile: './Dockerfile.bot'
+      dockerfile: './Dockerfile_bot'
     restart: always
     depends_on:
       - postgres
@@ -25,7 +25,7 @@ services:
       POSTGRES_DB: 'bot'
     build:
       context: '.'
-      dockerfile: './Dockerfile.notifier'
+      dockerfile: './Dockerfile_notifier'
     restart: always
     depends_on:
       - postgres
@@ -40,7 +40,7 @@ services:
       POSTGRES_DB: 'bot'
     build:
       context: '.'
-      dockerfile: './Dockerfile.crawler'
+      dockerfile: './Dockerfile_crawler'
     restart: always
     depends_on:
       - postgres
