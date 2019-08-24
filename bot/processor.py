@@ -11,22 +11,22 @@ class Processor:
     def __init__(self):
         self._gen = Generator('trained_data/cyber_weights')
 
-    async def process(self, message: str, person_id: int) -> str:
+    async def process(self, api, message: str, person_id: int) -> (str, str):
         await self._update_conversation(person_id)
         message = message.lower().strip()
 
         command, info = check_command(message)
         if command != Command.Unknown:
             try:
-                return await process_command(command, info, person_id)
+                return await process_command(api, command, info, person_id)
             except ValueError:
-                return f'Неправильные параметры({info}) для команды "{command.value}"'
+                return f'Неправильные параметры({info}) для команды "{command.value}"', ''
 
         is_ad = randint(1, 15) == 1
         if is_ad:
-            return get_ad()
+            return get_ad(), ''
 
-        return self._gen.generate(seed=message, size=randint(10, 80))
+        return self._gen.generate(seed=message, size=randint(10, 80)), ''
 
     @staticmethod
     async def _update_conversation(person_id: int):

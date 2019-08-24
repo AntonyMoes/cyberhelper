@@ -39,6 +39,7 @@ async def update_names(api):
         for conversation in conversations:
             ids.append(conversation.id)
 
+        # todo: it is possible to get up to 1000 users at a time, handle it
         info = await api('users.get', user_ids=','.join([str(id) for id in ids]))
 
         for conv_info, conversation in zip(info, conversations):
