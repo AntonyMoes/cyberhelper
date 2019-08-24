@@ -45,9 +45,14 @@ whats = [
 ]
 
 
-def get_quote() -> str:
+def get_quote(user_name: str) -> str:
+    if user_name is not None:
+        extended_whos = whos + [user_name]
+    else:
+        extended_whos = whos
+
     d = dict()
-    d['who'] = whos[randint(0, len(whos) - 1)]
+    d['who'] = extended_whos[randint(0, len(extended_whos) - 1)]
     d['what'] = whats[randint(0, len(whats) - 1)]
     d['what1'] = whats[randint(0, len(whats) - 1)]
     d['what2'] = whats[randint(0, len(whats) - 1)]
@@ -59,4 +64,4 @@ def get_quote() -> str:
 
 
 if __name__ == '__main__':
-    print(get_quote())
+    print(get_quote('ТОХА'))
