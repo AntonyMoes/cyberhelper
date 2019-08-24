@@ -45,5 +45,4 @@ def process_command(command: Command, info: str, user_id: int) -> str:
     if command == Command.Unknown:
         raise TypeError('Valid command type expected')
 
-    print(command, info, user_id)
     return _command_processors[command](info, user_id)
