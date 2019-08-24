@@ -4,6 +4,54 @@ services:
   bot:
     environment:
       API_KEY: ${API_KEY}
+      PGHOST: 'postgres'
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
     build:
       context: '.'
-      dockerfile: './Dockerfile'
+      dockerfile: './Dockerfile_bot'
+    restart: always
+    depends_on:
+      - postgres
+      - crawler
+
+  notifier:
+    environment:
+      API_KEY: ${API_KEY}
+      PGHOST: 'postgres'
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
+    build:
+      context: '.'
+      dockerfile: './Dockerfile_notifier'
+    restart: always
+    depends_on:
+      - postgres
+      - crawler
+
+  crawler:
+    environment:
+      API_KEY: ${API_KEY}
+      PGHOST: 'postgres'
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
+    build:
+      context: '.'
+      dockerfile: './Dockerfile_crawler'
+    restart: always
+    depends_on:
+      - postgres
+
+  postgres:
+    environment:
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres/data:/var/lib/postgresql/data

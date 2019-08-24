@@ -3,7 +3,7 @@ from keras.callbacks import LambdaCallback
 import numpy as np
 import random
 import sys
-from model import get_model
+from generator.model import get_model
 
 with open('quotes.txt') as f:
     text = f.read().lower()
