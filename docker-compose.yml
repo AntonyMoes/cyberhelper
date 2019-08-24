@@ -16,7 +16,6 @@ services:
     build:
       context: '.'
       dockerfile: './Dockerfile_bot'
-    restart: always
     depends_on:
       - base
       - postgres
@@ -32,7 +31,6 @@ services:
     build:
       context: '.'
       dockerfile: './Dockerfile_notifier'
-    restart: always
     depends_on:
       - base
       - postgres
@@ -48,7 +46,6 @@ services:
     build:
       context: '.'
       dockerfile: './Dockerfile_crawler'
-    restart: always
     depends_on:
       - base
       - postgres
