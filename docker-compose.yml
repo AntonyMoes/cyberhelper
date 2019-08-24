@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+  base:
+    build:
+      context: '.'
+      dockerfile: './Dockerfile_base'
+
   bot:
     environment:
       API_KEY: ${API_KEY}
@@ -13,6 +18,7 @@ services:
       dockerfile: './Dockerfile_bot'
     restart: always
     depends_on:
+      - base
       - postgres
       - crawler
 
@@ -28,6 +34,7 @@ services:
       dockerfile: './Dockerfile_notifier'
     restart: always
     depends_on:
+      - base
       - postgres
       - crawler
 
@@ -43,6 +50,7 @@ services:
       dockerfile: './Dockerfile_crawler'
     restart: always
     depends_on:
+      - base
       - postgres
 
   postgres:

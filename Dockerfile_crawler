@@ -1,11 +1,9 @@
-FROM python:3.7.4
+FROM cyberkotsenko_base:latest
 
-COPY requirements.txt requirements.txt
 COPY run_crawler.py run_crawler.py
+COPY base.py base.py
 COPY crawler/ crawler/
 COPY orm/ orm/
 COPY utils.py utils.py
-
-RUN pip install -r requirements.txt
 
 CMD ["python", "run_crawler.py"]

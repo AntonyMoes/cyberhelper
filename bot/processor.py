@@ -18,7 +18,7 @@ class Processor:
         command, info = check_command(message)
         if command != Command.Unknown:
             try:
-                return process_command(command, info, person_id)
+                return await process_command(command, info, person_id)
             except ValueError:
                 return f'Неправильные параметры({info}) для команды "{command.value}"'
 

@@ -1,13 +1,11 @@
-FROM python:3.7.4
+FROM cyberkotsenko_base:latest
 
-COPY requirements.txt requirements.txt
 COPY run_bot.py run_bot.py
+COPY base.py base.py
 COPY bot/ bot/
 COPY generator/ generator/
 COPY orm/ orm/
 COPY trained_data/ trained_data/
 COPY utils.py utils.py
-
-RUN pip install -r requirements.txt
 
 CMD ["python", "run_bot.py"]

@@ -1,11 +1,13 @@
 from enum import Enum
 
 from bot.quotes import get_quote
+from bot.jokes import get_joke
+from orm.models import Conversation
 
 
 class Command(Enum):
     Quote = 'цитата'
-    # Joke = 'шутка'
+    Joke = 'шутка'
 
     Unknown = ''
 
@@ -28,21 +30,38 @@ def check_command(message: str) -> (Command, str):
     return command, info
 
 
-def quote_processor(info: str, user_id: int) -> str:
+async def quote_processor(info: str, user_id: int) -> str:
     if info != '':
         raise ValueError('No info expected')
-    reply = get_quote()
+
+    conversation = await Conversation.objects.filter(id=user_id).get_one()
+    user_name = conversation.name
+
+    reply = get_quote(user_name)
+
+    return reply
+
+
+async def joke_processor(info: str, user_id: int) -> str:
+    if info != '':
+        raise ValueError('No info expected')
+
+    conversation = await Conversation.objects.filter(id=user_id).get_one()
+    user_name = conversation.name
+
+    reply = get_joke(user_name)
 
     return reply
 
 
 _command_processors = {
-    Command.Quote: quote_processor
+    Command.Quote: quote_processor,
+    Command.Joke: joke_processor,
 }
 
 
-def process_command(command: Command, info: str, user_id: int) -> str:
+async def process_command(command: Command, info: str, user_id: int) -> str:
     if command == Command.Unknown:
         raise TypeError('Valid command type expected')
 
-    return _command_processors[command](info, user_id)
+    return await _command_processors[command](info, user_id)
