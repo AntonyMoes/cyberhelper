@@ -6,6 +6,7 @@ from orm.models import Conversation
 
 
 class Command(Enum):
+    Help = 'помощь'
     Quote = 'цитата'
     Joke = 'шутка'
 
@@ -28,6 +29,11 @@ def check_command(message: str) -> (Command, str):
         info = ''
 
     return command, info
+
+
+async def help_processor(info: str, user_id: int) -> str:
+    result = 'Список команд:\n' + '\n'.join([c.value for c in list(Command) if c != Command.Unknown])
+    return result
 
 
 async def quote_processor(info: str, user_id: int) -> str:
@@ -55,6 +61,7 @@ async def joke_processor(info: str, user_id: int) -> str:
 
 
 _command_processors = {
+    Command.Help: help_processor,
     Command.Quote: quote_processor,
     Command.Joke: joke_processor,
 }
