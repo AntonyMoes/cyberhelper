@@ -5,6 +5,7 @@ from bot.quotes import get_quote
 from bot.jokes import get_joke, get_bash_joke
 from bot.google import google_it
 from bot.business import get_advice
+from bot.weather import get_weather
 from orm.models import Conversation
 
 
@@ -16,6 +17,7 @@ class Command(Enum):
     GoogleMany = 'погугли_много'
     Advice = 'совет'
     Wisdom = 'мудрость'
+    Weather = 'погода'
 
     Unknown = ''
 
@@ -103,6 +105,15 @@ async def advice_processor(api, info: str, user_id: int) -> (str, str):
     return '', attachment
 
 
+async def weather_processor(api, info: str, user_id: int) -> (str, str):
+    if info == '':
+        raise ValueError('Query expected')
+
+    reply = await get_weather(info)
+
+    return reply, ''
+
+
 _command_processors = {
     Command.Help: help_processor,
     Command.Quote: quote_processor,
@@ -111,6 +122,7 @@ _command_processors = {
     Command.GoogleMany: google_many_processor,
     Command.Advice: advice_processor,
     Command.Wisdom: advice_processor,
+    Command.Weather: weather_processor,
 }
 
 

@@ -1,4 +1,3 @@
-from math import inf
 from random import choice
 
 advice_group = '55836131'
