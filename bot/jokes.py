@@ -1,6 +1,7 @@
 from random import randint
 import aiohttp
 from selectolax.parser import HTMLParser
+from html import unescape
 
 from utils import user_agent
 
@@ -32,6 +33,6 @@ async def get_bash_joke() -> str:
         joke_html = joke_html.strip(' ')
         joke_html = joke_html.strip('\n')
         joke_html = joke_html.strip(' ')
-        joke = joke_html.replace('<br>', '\n')
+        joke = unescape(joke_html)
 
     return joke
