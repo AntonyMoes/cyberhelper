@@ -9,3 +9,13 @@ class Conversation(Model):
 
     class Meta:
         table_name = 'conversations'
+
+
+class Notification(Model):
+    rid = IntPrimaryField()
+    type = StringField(required=True)
+    whom = IntField(required=True)
+    ts = IntField(required=True)
+
+    class Meta:
+        table_name = 'notifications'

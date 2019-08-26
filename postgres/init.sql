@@ -6,3 +6,12 @@ create table if not exists conversations (
     name text,
     last_ts integer not null
 );
+
+create table if not exists notifications (
+    rid serial not null
+    constraint reminders_pkey
+    primary key,
+    type text not null,
+    whom integer not null references conversations on delete no action,
+    ts integer not null
+);
