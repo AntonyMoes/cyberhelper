@@ -9,7 +9,7 @@ create table if not exists conversations (
 
 create table if not exists notifications (
     rid serial not null
-    constraint reminders_pkey
+    constraint notifications_pkey
     primary key,
     type text not null,
     whom integer not null references conversations on delete no action,
