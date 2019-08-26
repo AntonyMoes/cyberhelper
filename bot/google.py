@@ -13,7 +13,12 @@ async def google_it(query: str, how_many: int = 1) -> str:
         i = 0
 
         results = []
-        for node in HTMLParser(text).css_first('div[eid]').css_first('div > div.srg').css_first('div.srg').css('div.g'):
+        search_result_node = HTMLParser(text).css_first('div[eid]')
+        if search_result_node is None:
+            return 'Ничего не нашел'
+
+        nodes = search_result_node.css_first('div > div.srg').css_first('div.srg').css('div.g')
+        for node in nodes:
             node = node.css_first('div[data-ved]').css_first('div.rc')
             header_node = node.css_first('div.r').css_first('a')
 
@@ -30,4 +35,4 @@ async def google_it(query: str, how_many: int = 1) -> str:
     if len(results) > 0:
         return '\n'.join(results[:how_many])
     else:
-        'Ничего не нашел'
+        return 'Ничего не нашел'
