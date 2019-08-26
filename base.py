@@ -18,7 +18,7 @@ class BaseBot:
     async def _run(coros):
         await asyncio.gather(*coros)
 
-    async def write_msg(self, person_id: int, response: str, chat_id: int = -1, reply_id: int = -1):
+    async def write_msg(self, person_id: int, response: str, chat_id: int = -1, reply_id: int = -1, attachment: str = ''):
         if chat_id == -1:
             chat_id = person_id
 
@@ -26,6 +26,7 @@ class BaseBot:
             'peer_id': chat_id,
             'message': response,
             'random_id': str(randint(0, 2147483647)),
+            'attachment': attachment,
         }
 
         if reply_id != -1:
