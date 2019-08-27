@@ -21,20 +21,20 @@ services:
       - postgres
       - crawler
 
-  notifier:
-    environment:
-      API_KEY: ${API_KEY}
-      PGHOST: 'postgres'
-      POSTGRES_USER: 'server'
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: 'bot'
-    build:
-      context: '.'
-      dockerfile: './Dockerfile_notifier'
-    depends_on:
-      - base
-      - postgres
-      - crawler
+#  notifier:
+#    environment:
+#      API_KEY: ${API_KEY}
+#      PGHOST: 'postgres'
+#      POSTGRES_USER: 'server'
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: 'bot'
+#    build:
+#      context: '.'
+#      dockerfile: './Dockerfile_notifier'
+#    depends_on:
+#      - base
+#      - postgres
+#      - crawler
 
   crawler:
     environment:
