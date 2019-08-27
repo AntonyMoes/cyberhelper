@@ -13,19 +13,20 @@ class Processor:
 
     async def process(self, api, message: str, person_id: int) -> (str, str):
         await self._update_conversation(person_id)
-        message = message.lower().strip()
+        message = message.strip()
 
-        command, info = check_command(message)
+        command, params = check_command(message)
         if command != Command.Unknown:
             try:
-                return await process_command(api, command, info, person_id)
+                return await process_command(api, command, params, person_id)
             except ValueError:
-                return f'Неправильные параметры({info}) для команды "{command.value}"', ''
+                return f'Неправильные параметры для команды "{command.value.name}"', ''
 
         is_ad = randint(1, 15) == 1
         if is_ad:
             return get_ad(), ''
 
+        message = message.lower()
         return self._gen.generate(seed=message, size=randint(10, 80)), ''
 
     @staticmethod
