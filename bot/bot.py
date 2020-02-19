@@ -3,6 +3,10 @@ from aiovk.longpoll import BotsLongPoll
 from base import BaseBot
 from bot.processor import Processor
 from bot.events import Event
+from utils import split_message
+
+
+MESSAGE_LEN_THRESHOLD = 500
 
 
 class Bot(BaseBot):
@@ -22,11 +26,12 @@ class Bot(BaseBot):
 
                 if event.msg_to_me:
                     reply, attachment = await self._pr.process(self._api, event.text.lower(), event.from_id)
-
-                    if event.to_chat:
-                        await self.write_msg(person_id=event.from_id, response=reply, chat_id=event.chat_id, attachment=attachment)
-                    else:
-                        await self.write_msg(person_id=event.from_id, response=reply, attachment=attachment)
+                    replies = split_message(reply, MESSAGE_LEN_THRESHOLD)
+                    for r in replies:
+                        if event.to_chat:
+                            await self.write_msg(person_id=event.from_id, response=r, chat_id=event.chat_id, attachment=attachment)
+                        else:
+                            await self.write_msg(person_id=event.from_id, response=r, attachment=attachment)
 
 
 
