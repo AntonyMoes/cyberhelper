@@ -1,8 +1,7 @@
 from random import choice
 from aiohttp import request
 import asyncio
-from selectolax.parser import HTMLParser
-from html import unescape
+from selectolax.parser import HTMLParser, Node
 
 from utils import user_agent
 

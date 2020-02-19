@@ -7,6 +7,7 @@ from bot.google import google_it
 from bot.business import get_advice
 from bot.weather import get_weather
 from bot.fresco import get_fresco
+from bot.dvach import get_2ch
 from orm.models import Conversation
 
 
@@ -20,6 +21,8 @@ class Command(Enum):
     Wisdom = 'мудрость'
     Weather = 'погода'
     Fresco = 'фреско'
+    Dvach = 'двач'
+    Tooch = '2ch'
 
     Unknown = ''
 
@@ -124,6 +127,14 @@ async def fresco_processor(api, info: str, user_id: int) -> (str, str):
 
     return reply, ''
 
+async def dvach_processor(api, info: str, user_id: int) -> (str, str):
+    if info == '':
+        raise ValueError('Board expected')
+
+    reply = await get_2ch(info)
+
+    return reply, ''
+
 
 _command_processors = {
     Command.Help: help_processor,
@@ -135,6 +146,8 @@ _command_processors = {
     Command.Wisdom: advice_processor,
     Command.Weather: weather_processor,
     Command.Fresco: fresco_processor,
+    Command.Dvach: dvach_processor,
+    Command.Tooch: dvach_processor,
 }
 
 
