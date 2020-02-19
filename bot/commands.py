@@ -127,6 +127,7 @@ async def fresco_processor(api, info: str, user_id: int) -> (str, str):
 
     return reply, ''
 
+
 async def dvach_processor(api, info: str, user_id: int) -> (str, str):
     if info == '':
         raise ValueError('Board expected')

@@ -42,16 +42,13 @@ async def get_2ch(board_request: str) -> str:
         text = await resp.text()
 
         parser = HTMLParser(text)
+        # todo add table parsing for nore board options
         list_nodes = parser.css('article > a[href]') + parser.css('li > a[href]')
-        list_tuples = list(filter(lambda t: t[0] != APP_TEXT, map(node_to_title, list_nodes)))
-        # print(list_tuples)
+        list_tuples = list(filter(lambda t: t[0] != APP_TEXT and t[1][-1] == '/', map(node_to_title, list_nodes)))
 
         list_dist = list(map(lambda t: distance(board_request, t[0]), list_tuples))
-        # print(list_dist)
         min_dist = min(list_dist)
-        # print(min_dist)
         prob_board = [t for t, dist in zip(list_tuples, list_dist) if dist == min_dist]
-        # print(prob_board)
 
         if len(prob_board) > 1:
             return 'Уточните запрос. Наиболее близки следующие доски:\n' + '\n'.join(map(lambda t: t[0], prob_board))
@@ -67,11 +64,14 @@ async def get_2ch(board_request: str) -> str:
         top = list(sorted(list_processed, key=lambda x: x[1], reverse=True))
         top_texts = list(map(lambda x: x[0], top))[:NUM_TOP]
 
-    return '\n|>'.join([name.upper()] + top_texts)
-    # return ''
+        final = '\n|>'.join([name.upper()] + top_texts)
+
+    return final
 
 
 if __name__ == '__main__':
     print(asyncio.get_event_loop().run_until_complete(get_2ch('ВОЛК')))
+    print(len(asyncio.get_event_loop().run_until_complete(get_2ch('ВОЛК'))))
     print()
     print(asyncio.get_event_loop().run_until_complete(get_2ch('бред')))
+    print(len(asyncio.get_event_loop().run_until_complete(get_2ch('бред'))))
