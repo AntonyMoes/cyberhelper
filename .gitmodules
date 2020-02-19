@@ -1,0 +1,3 @@
+[submodule "async_orm"]
+	path = async_orm
+	url = https://github.com/AntonyMoes/async_orm.git

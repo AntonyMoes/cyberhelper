@@ -1,6 +1,7 @@
 FROM cyberkotsenko_base:latest
 
 COPY run_crawler.py run_crawler.py
+COPY async_orm/ async_orm/
 COPY base.py base.py
 COPY crawler/ crawler/
 COPY orm/ orm/

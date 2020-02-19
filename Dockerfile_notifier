@@ -1,6 +1,7 @@
 FROM cyberkotsenko_base:latest
 
 COPY run_notifier.py run_notifier.py
+COPY async_orm/ async_orm/
 COPY base.py base.py
 COPY notifier/ notifier/
 COPY orm/ orm/

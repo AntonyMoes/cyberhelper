@@ -1,6 +1,7 @@
 FROM cyberkotsenko_base:latest
 
 COPY run_bot.py run_bot.py
+COPY async_orm/ async_orm/
 COPY base.py base.py
 COPY bot/ bot/
 COPY generator/ generator/

@@ -1,4 +1,4 @@
-from orm.orm import Model, IntPrimaryField, IntField, StringField
+from async_orm.orm import Model, IntPrimaryField, IntField, StringField
 
 
 class Conversation(Model):

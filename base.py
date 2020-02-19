@@ -3,7 +3,7 @@ from random import randint
 import asyncio
 from time import time
 
-from orm.orm import init_orm
+from async_orm.orm import init_orm
 from orm.models import Conversation
 
 

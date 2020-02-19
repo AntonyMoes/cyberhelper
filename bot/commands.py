@@ -6,6 +6,7 @@ from bot.jokes import get_joke, get_bash_joke
 from bot.google import google_it
 from bot.business import get_advice
 from bot.weather import get_weather
+from bot.fresco import get_fresco
 from orm.models import Conversation
 
 
@@ -18,6 +19,7 @@ class Command(Enum):
     Advice = 'совет'
     Wisdom = 'мудрость'
     Weather = 'погода'
+    Fresco = 'фреско'
 
     Unknown = ''
 
@@ -110,6 +112,15 @@ async def weather_processor(api, info: str, user_id: int) -> (str, str):
         raise ValueError('Query expected')
 
     reply = await get_weather(info)
+
+    return reply, ''
+
+
+async def fresco_processor(api, info: str, user_id: int) -> (str, str):
+    if info != '':
+        raise ValueError('No info expected')
+
+    reply = await get_fresco(info)
 
     return reply, ''
 
