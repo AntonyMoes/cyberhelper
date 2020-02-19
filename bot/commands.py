@@ -134,6 +134,7 @@ _command_processors = {
     Command.Advice: advice_processor,
     Command.Wisdom: advice_processor,
     Command.Weather: weather_processor,
+    Command.Fresco: fresco_processor,
 }
 
 
