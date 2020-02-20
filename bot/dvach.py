@@ -16,8 +16,9 @@ def node_to_title(node: Node) -> Tuple[str, str]:
     href = node.attributes['href']
     return text.replace('/', ''), href
 
-TOPIC = '\n|-> '
-POST = '\n|   '
+
+TOPIC = '\n|=> '
+POST = '\n| '
 MAX_LEN = 70
 
 
