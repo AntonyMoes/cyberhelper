@@ -21,7 +21,6 @@ def split_message(message: str, threshold: int, sep: str = '\n') -> List[str]:
         return [msg[i:i + threshold] for i in range(0, len(msg), threshold)]
 
     chunks = chunkify(message)
-    print('CHUNKS', chunks)
 
     def sift(curr_idx, msg):
         nonlocal chunks
@@ -44,10 +43,8 @@ def split_message(message: str, threshold: int, sep: str = '\n') -> List[str]:
             continue
         else:
             first, second = chunk[:idx], chunk[idx+1:]
-            # if len(first) > 0:
             messages.append(first)
             sift(i, second)
-            print('NEW_CHUNKS', chunks)
 
     stripped = list(map(lambda s: s.strip(sep), messages))
     return stripped
