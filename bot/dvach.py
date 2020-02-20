@@ -16,8 +16,8 @@ def node_to_title(node: Node) -> Tuple[str, str]:
     href = node.attributes['href']
     return text.replace('/', ''), href
 
-
-SEP = '\n| '
+TOPIC = '\n|-> '
+POST = '\n|   '
 MAX_LEN = 70
 
 
@@ -31,7 +31,7 @@ def process_thread(node: Node) -> Tuple[str, int]:
                                       texts))))
     # print(texts_stripped)
 
-    return SEP.join(map(lambda s: s, texts_stripped)), len(texts)
+    return POST.join(map(lambda s: s, texts_stripped)), len(texts)
 
 
 NUM_TOP = 5
@@ -64,7 +64,7 @@ async def get_2ch(board_request: str) -> str:
         top = list(sorted(list_processed, key=lambda x: x[1], reverse=True))
         top_texts = list(map(lambda x: x[0], top))[:NUM_TOP]
 
-        final = '\n|>'.join([name.upper()] + top_texts)
+        final = TOPIC.join([name.upper()] + top_texts)
 
     return final
 
