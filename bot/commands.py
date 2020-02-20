@@ -71,7 +71,7 @@ async def joke_processor(api, info: str, user_id: int) -> (str, str):
 
     rand = randint(0, 10)
     if rand == 0:
-        reply = get_joke(user_name)
+        reply = get_joke()
     else:
         reply = await get_bash_joke()
 
@@ -123,7 +123,7 @@ async def fresco_processor(api, info: str, user_id: int) -> (str, str):
     if info != '':
         raise ValueError('No info expected')
 
-    reply = await get_fresco(info)
+    reply = await get_fresco()
 
     return reply, ''
 

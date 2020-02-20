@@ -10,7 +10,7 @@ jokes = [
 ]
 
 
-def get_joke(user_name: str) -> str:
+def get_joke() -> str:
     return jokes[randint(0, len(jokes) - 1)]
 
 

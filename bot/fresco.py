@@ -9,7 +9,7 @@ SITE = 'https://ru.citaty.net/avtory/zhak-fresko/?page='
 PAGES = list(range(1, 8))
 
 
-async def get_fresco(user_name: str) -> str:
+async def get_fresco() -> str:
     async with request('GET', SITE + str(choice(PAGES)), headers={'User-Agent': user_agent}) as resp:
         text = await resp.text()
         quote_nodes = HTMLParser(text).css('a[data-quote-content]')
@@ -20,4 +20,4 @@ async def get_fresco(user_name: str) -> str:
 
 
 if __name__ == '__main__':
-    print(asyncio.get_event_loop().run_until_complete(get_fresco('ТОХА')))
+    print(asyncio.get_event_loop().run_until_complete(get_fresco()))
