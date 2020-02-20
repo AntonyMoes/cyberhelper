@@ -3,14 +3,15 @@ from selectolax.parser import HTMLParser
 import aiohttp
 import asyncio
 
-from utils import user_agent
+from utils import user_agent, accept_language
 
 base_query = 'https://google.com/search?q='
 
 
 async def google_it(query: str, how_many: int = 1) -> str:
     print(base_query + quote(query))
-    async with aiohttp.request('GET', base_query + quote(query), headers={'User-Agent': user_agent}) as resp:
+    async with aiohttp.request('GET', base_query + quote(query),
+                               headers={'User-Agent': user_agent, 'accept-language': accept_language}) as resp:
         text = await resp.text()
 
         results = []
