@@ -30,8 +30,7 @@ def process_thread(node: Node) -> Tuple[str, int]:
                               map(lambda s: s.replace('\n\t', '').replace('\t', ''),
                                   map(lambda s: sub(r'>>\d+( \(OP\))?', '', s),
                                       texts))))
-    # print(texts_stripped)
-
+    # todo: add ref to topic
     return POST.join(map(lambda s: s, texts_stripped)), len(texts)
 
 
@@ -43,7 +42,7 @@ async def get_2ch(board_request: str) -> str:
         text = await resp.text()
 
         parser = HTMLParser(text)
-        # todo add table parsing for nore board options
+        # todo add table parsing for more board options
         list_nodes = parser.css('article > a[href]') + parser.css('li > a[href]')
         list_tuples = list(filter(lambda t: t[0] != APP_TEXT and t[1][-1] == '/', map(node_to_title, list_nodes)))
 
