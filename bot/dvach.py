@@ -23,14 +23,17 @@ MAX_LEN = 70
 
 
 def process_thread(node: Node) -> Tuple[str, int]:
-    op_text = node.css_first('div.thread__oppost > div.post_type_oppost >article.post__message_op').text()
+    op_card = node.css_first('div.thread__oppost > div.post_type_oppost')
+    op_link = SITE + op_card.css_first('div.post__details > span.post__detailpart > a').attributes['href']
+    op_text = op_card.css_first('article.post__message_op').text()
     posts = node.css('div.thread__post')
-    texts = [op_text] + list(map(lambda n: n.css_first('article.post__message').text(), posts))
+
+    texts = [op_link + TOPIC + op_text] + list(map(lambda n: n.css_first('article.post__message').text(), posts))
     texts_stripped = list(map(lambda s: s if len(s) < MAX_LEN else s[:MAX_LEN] + '...',
                               map(lambda s: s.replace('\n\t', '').replace('\t', ''),
                                   map(lambda s: sub(r'>>\d+( \(OP\))?', '', s),
                                       texts))))
-    # todo: add ref to topic
+
     return POST.join(map(lambda s: s, texts_stripped)), len(texts)
 
 
