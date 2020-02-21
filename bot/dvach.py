@@ -28,13 +28,14 @@ def process_thread(node: Node) -> Tuple[str, int]:
     op_text = op_card.css_first('article.post__message_op').text()
     posts = node.css('div.thread__post')
 
-    texts = [op_link + TOPIC + op_text] + list(map(lambda n: n.css_first('article.post__message').text(), posts))
+    texts = [op_text] + list(map(lambda n: n.css_first('article.post__message').text(), posts))
     texts_stripped = list(map(lambda s: s if len(s) < MAX_LEN else s[:MAX_LEN] + '...',
                               map(lambda s: s.replace('\n\t', '').replace('\t', ''),
                                   map(lambda s: sub(r'>>\d+( \(OP\))?', '', s),
                                       texts))))
 
-    return POST.join(map(lambda s: s, texts_stripped)), len(texts)
+    texts_stripped[0] = op_link + TOPIC + texts_stripped[0]
+    return POST.join(texts_stripped), len(texts)
 
 
 NUM_TOP = 5
