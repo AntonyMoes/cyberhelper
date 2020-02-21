@@ -2,14 +2,14 @@ from aiovk.longpoll import BotsLongPoll
 
 from base import BaseBot
 from bot.processor import Processor
-from bot.events import Event
+from bot.events import VKEvent
 from utils import split_message
 
 
 MESSAGE_LEN_THRESHOLD = 500
 
 
-class Bot(BaseBot):
+class VKBot(BaseBot):
     def __init__(self, token: str, pg_user: str, pg_password: str, pg_database: str, pg_host: str):
         super().__init__(token, pg_user, pg_password, pg_database, pg_host)
 
@@ -21,7 +21,7 @@ class Bot(BaseBot):
             updates = (await self._longpoll.wait())['updates']
             for update in updates:
                 print(update, '\n')
-                event = Event(update)
+                event = VKEvent(update)
                 # print(event, '\n')
 
                 if event.msg_to_me:

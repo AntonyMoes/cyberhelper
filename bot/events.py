@@ -1,19 +1,19 @@
 from enum import Enum
 
 
-class VkEventType(Enum):
+class VKEventType(Enum):
     MessageNew = 'message_new'
     MessageReply = 'message_reply'
     MessageTypingState = 'message_typing_state'
     Unknown = ''
 
 
-class Event:
+class VKEvent:
     def __init__(self, msg: dict):
         try:
-            self.type = VkEventType(msg['type'])
+            self.type = VKEventType(msg['type'])
         except ValueError:
-            self.type = VkEventType.Unknown
+            self.type = VKEventType.Unknown
 
         self.group_id = msg['group_id']
 
@@ -25,7 +25,7 @@ class Event:
         self.id = -1
         self.chat_id = -1
 
-        if self.type == VkEventType.MessageNew or self.type == VkEventType.MessageReply:
+        if self.type == VKEventType.MessageNew or self.type == VKEventType.MessageReply:
             self.id = obj['id']
             self.date = obj['date']
             self.text: str = obj['text']
@@ -35,7 +35,7 @@ class Event:
                 self.id = obj['conversation_message_id']
 
         self.msg_to_me = False
-        if self.type == VkEventType.MessageNew:
+        if self.type == VKEventType.MessageNew:
             if obj['peer_id'] < 2000000000:
                 self.msg_to_me = True
             else:

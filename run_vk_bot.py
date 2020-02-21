@@ -1,6 +1,6 @@
 import asyncio
 from os import environ
-from bot import Bot
+from bot import VKBot
 from utils import get_env_var
 
 
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     pg_database = get_env_var('POSTGRES_DB', 'postgres')
     pg_host = get_env_var('PGHOST', 'localhost')
 
-    bot = Bot(token, pg_user=pg_user, pg_password=pg_password, pg_database=pg_database, pg_host=pg_host)
+    bot = VKBot(token, pg_user=pg_user, pg_password=pg_password, pg_database=pg_database, pg_host=pg_host)
 
     print('Бот запущен')
     asyncio.get_event_loop().run_until_complete(bot.run())

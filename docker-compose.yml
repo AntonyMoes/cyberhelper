@@ -6,7 +6,7 @@ services:
       context: '.'
       dockerfile: './Dockerfile_base'
 
-  bot:
+  vk_bot:
     environment:
       API_KEY: ${API_KEY}
       PGHOST: 'postgres'
@@ -15,11 +15,25 @@ services:
       POSTGRES_DB: 'bot'
     build:
       context: '.'
-      dockerfile: './Dockerfile_bot'
+      dockerfile: './Dockerfile_vk_bot'
     depends_on:
       - base
       - postgres
       - crawler
+
+  discord_bot:
+    environment:
+      DISC_TOKEN: ${DISC_TOKEN}
+      PGHOST: 'postgres'
+      POSTGRES_USER: 'server'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: 'bot'
+    build:
+      context: '.'
+      dockerfile: './Dockerfile_discord_bot'
+    depends_on:
+      - base
+      - postgres
 
 #  notifier:
 #    environment:

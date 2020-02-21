@@ -1,0 +1,12 @@
+FROM cyberkotsenko_base:latest
+
+COPY run_vk_bot.py run_vk_bot.py
+COPY async_orm/ async_orm/
+COPY base.py base.py
+COPY bot/ bot/
+COPY generator/ generator/
+COPY orm/ orm/
+COPY trained_data/ trained_data/
+COPY utils.py utils.py
+
+CMD ["python", "run_vk_bot.py"]
