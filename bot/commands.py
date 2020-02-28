@@ -66,8 +66,8 @@ async def joke_processor(api, info: str, user_id: int) -> (str, str):
     if info != '':
         raise ValueError('No info expected')
 
-    conversation = await Conversation.objects.filter(id=user_id).get_one()
-    user_name = conversation.name
+    # conversation = await Conversation.objects.filter(id=user_id).get_one()
+    # user_name = conversation.name
 
     rand = randint(0, 10)
     if rand == 0:
